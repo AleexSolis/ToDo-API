@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "553aaf80-74ef-4489-b17a-d8fe14df9532",
+		"name": "Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "USER BY ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/users/918395ad-0391-4b79-870b-fe7c06bfd9a8",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"users",
+						"918395ad-0391-4b79-870b-fe7c06bfd9a8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE USER",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"lastName\": \"solis2\",\n    \"firstName\": \"alex2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/users/b9074d8f-8e2c-4f25-84a3-b23726724964",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"users",
+						"b9074d8f-8e2c-4f25-84a3-b23726724964"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
