@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { AppModule } from './app.module';
+import { exceptionFactory } from './utils/Exception';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      exceptionFactory,
     }),
   );
   prismaService.enableShutdownHooks(app);

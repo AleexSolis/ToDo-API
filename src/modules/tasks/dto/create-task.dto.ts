@@ -1,5 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
@@ -7,10 +12,12 @@ export class CreateTaskDto {
   @ApiProperty()
   name: string;
 
+  @IsString()
   @IsOptional()
   @ApiPropertyOptional()
   description?: string;
 
+  @IsDateString()
   @IsOptional()
   @ApiPropertyOptional()
   completedAt?: Date;

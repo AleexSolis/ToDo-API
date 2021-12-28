@@ -16,9 +16,27 @@ class ApiResponse {
   type?: Type<unknown> | Function | [Function] | string;
 }
 
-class ValidationError {
+class ConstraintsError {
+  [key: string]: string;
+}
+
+class MessageError {
   @ApiProperty()
-  message: Array<string>;
+  field: string;
+
+  @ApiProperty()
+  message: string;
+
+  @ApiProperty()
+  validation: string;
+
+  @ApiProperty()
+  constraints: ConstraintsError;
+}
+
+class ValidationError {
+  @ApiProperty({ type: [MessageError] })
+  errors: Array<MessageError>;
 }
 
 export { ApiResponse, ValidationError };

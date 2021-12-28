@@ -3,7 +3,7 @@ import Response, { ApiResponse, ValidationError } from './Response';
 const errors: { [label: string]: ApiResponse } = {
   VALIDATION_ERROR: {
     status: 400,
-    description: 'Validation error. [filed description]',
+    description: 'Validation error.',
     type: ValidationError,
   },
   UNKNOWN_ERROR: {
@@ -38,7 +38,8 @@ const errors: { [label: string]: ApiResponse } = {
   },
 };
 
-const NotTypeError = ({ type, ...error }: ApiResponse) => {
+const NotTypeError = (error: ApiResponse) => {
+  delete error.type;
   return error;
 };
 

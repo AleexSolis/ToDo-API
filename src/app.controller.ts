@@ -41,6 +41,7 @@ export class AppController {
 
   @Post('register')
   @ApiResponse(responses.REGISTER_SUCCESS)
+  @ApiResponse(errors.VALIDATION_ERROR)
   @ApiResponse(errors.REGISTER_EMAIL_USERNAME_EXISTS)
   @ApiResponse(errors.UNKNOWN_ERROR)
   async register(
