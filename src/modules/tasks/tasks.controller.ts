@@ -36,8 +36,9 @@ export class TasksController {
 
   @Post()
   @ApiResponse(responses.TASK_SUCCESS)
-  @ApiResponse(errors.UNKNOWN_ERROR)
+  @ApiResponse(errors.UNAUTHORIZED)
   @ApiResponse(errors.VALIDATION_ERROR)
+  @ApiResponse(errors.UNKNOWN_ERROR)
   @ApiBearerAuth()
   @UseInterceptors(PermissionInterceptor)
   @UseGuards(JwtAuthGuard)
@@ -56,6 +57,7 @@ export class TasksController {
 
   @Get()
   @ApiResponse(responses.TASKS_SUCCESS)
+  @ApiResponse(errors.UNAUTHORIZED)
   @ApiResponse(errors.UNKNOWN_ERROR)
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
@@ -71,6 +73,7 @@ export class TasksController {
 
   @Get(':id')
   @ApiResponse(responses.TASK_SUCCESS)
+  @ApiResponse(errors.UNAUTHORIZED)
   @ApiResponse(errors.TASK_NOT_FOUND)
   @ApiResponse(errors.UNKNOWN_ERROR)
   @ApiBearerAuth()
@@ -97,6 +100,7 @@ export class TasksController {
 
   @Put(':id')
   @ApiResponse(responses.TASK_SUCCESS)
+  @ApiResponse(errors.UNAUTHORIZED)
   @ApiResponse(errors.VALIDATION_ERROR)
   @ApiResponse(errors.TASK_NOT_FOUND)
   @ApiResponse(errors.UNKNOWN_ERROR)
@@ -126,6 +130,7 @@ export class TasksController {
 
   @Delete(':id')
   @ApiResponse(responses.TASK_DELETE_SUCCESS)
+  @ApiResponse(errors.UNAUTHORIZED)
   @ApiResponse(errors.TASK_NOT_FOUND)
   @ApiResponse(errors.UNKNOWN_ERROR)
   @ApiBearerAuth()
