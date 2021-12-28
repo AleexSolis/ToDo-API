@@ -1,8 +1,10 @@
 import { OmitType } from '@nestjs/swagger';
 import { Session } from 'src/auth/entities';
+import { Task } from 'src/modules/tasks/entities/task.entity';
 import { User } from 'src/modules/users/entities/user.entity';
+import { ApiResponse } from './Response';
 
-const responses = {
+const responses: { [label: string]: ApiResponse } = {
   WELCOME_MESSAGE: {
     status: 200,
     description: 'Welcome message.',
@@ -31,6 +33,20 @@ const responses = {
     status: 200,
     description: 'Update user successfully.',
     type: OmitType(User, ['password']),
+  },
+  TASK_SUCCESS: {
+    status: 201,
+    description: 'Task successfully.',
+    type: Task,
+  },
+  TASKS_SUCCESS: {
+    status: 200,
+    description: 'Tasks successfully.',
+    type: [Task],
+  },
+  TASK_DELETE_SUCCESS: {
+    status: 200,
+    description: 'Task delete successfully.',
   },
 };
 

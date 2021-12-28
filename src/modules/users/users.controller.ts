@@ -8,12 +8,14 @@ import {
   HttpStatus,
   Logger,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { PermissionInterceptor } from 'src/interceptors/permission.interceptor';
 import { UpdateUserDto } from 'src/modules/users/dto/update-user.dto';
-import errors from 'src/responses/error';
+import errors, { NotTypeError } from 'src/responses/error';
 import responses from 'src/responses/success';
 import { UsersService } from './users.service';
 
@@ -27,30 +29,46 @@ export class UsersController {
     this.service = usersService;
   }
 
-  @Get(':id')
+  @Get(':userId')
   @ApiResponse(responses.GET_USER_BY_ID_SUCCESS)
   @ApiResponse(errors.USER_NOT_FOUND)
+  @ApiResponse(errors.UNAUTHORIZED)
+  @ApiResponse(errors.UNKNOWN_ERROR)
   @ApiBearerAuth()
+  @UseInterceptors(PermissionInterceptor)
   @UseGuards(JwtAuthGuard)
-  async findOne(@Param('id') id: string, @Res() res: Response): Promise<void> {
+  async findOne(
+    @Param('userId') id: string,
+    @Res() res: Response,
+  ): Promise<void> {
     try {
       const user = await this.service.findOne(id);
-      delete user.password;
-      res.status(HttpStatus.OK).json(user);
+
+      if (user) {
+        delete user.password;
+        res.status(HttpStatus.OK).json(user);
+      } else {
+        res
+          .status(errors.USER_NOT_FOUND.status)
+          .json(NotTypeError(errors.USER_NOT_FOUND));
+      }
     } catch (error) {
       this.logger.error(error.message);
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+      res.status(errors.UNKNOWN_ERROR.status).send();
     }
   }
 
-  @Put(':id')
+  @Put(':userId')
   @ApiResponse(responses.UPDATE_USER_SUCCESS)
+  @ApiResponse(errors.VALIDATION_ERROR)
   @ApiResponse(errors.USER_NOT_FOUND)
+  @ApiResponse(errors.UNAUTHORIZED)
   @ApiResponse(errors.UNKNOWN_ERROR)
   @ApiBearerAuth()
+  @UseInterceptors(PermissionInterceptor)
   @UseGuards(JwtAuthGuard)
   async update(
-    @Param('id') id: string,
+    @Param('userId') id: string,
     @Body() updateUserDto: UpdateUserDto,
     @Res() res: Response,
   ): Promise<void> {
@@ -60,7 +78,7 @@ export class UsersController {
       res.status(HttpStatus.OK).json(user);
     } catch (error) {
       this.logger.error(error.message);
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+      res.status(errors.UNKNOWN_ERROR.status).send();
     }
   }
 }

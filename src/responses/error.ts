@@ -1,6 +1,11 @@
-import Response from './Response';
+import Response, { ApiResponse, ValidationError } from './Response';
 
-const errors = {
+const errors: { [label: string]: ApiResponse } = {
+  VALIDATION_ERROR: {
+    status: 400,
+    description: 'Validation error. [filed description]',
+    type: ValidationError,
+  },
   UNKNOWN_ERROR: {
     status: 500,
     description: 'Unknown error.',
@@ -26,6 +31,16 @@ const errors = {
     description: 'The user does not exist.',
     type: Response,
   },
+  TASK_NOT_FOUND: {
+    status: 404,
+    description: 'The task does not exist.',
+    type: Response,
+  },
 };
 
+const NotTypeError = ({ type, ...error }: ApiResponse) => {
+  return error;
+};
+
+export { NotTypeError };
 export default errors;

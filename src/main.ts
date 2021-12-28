@@ -15,7 +15,11 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  );
   prismaService.enableShutdownHooks(app);
 
   const document = SwaggerModule.createDocument(app, config);

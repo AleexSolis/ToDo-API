@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Users } from '@prisma/client';
+import { Users, USER_ROLES } from '@prisma/client';
 
 export class User implements Users {
   @ApiProperty()
@@ -24,4 +24,7 @@ export class User implements Users {
 
   @ApiProperty()
   updateAt: Date;
+
+  @ApiProperty()
+  role: USER_ROLES;
 }
